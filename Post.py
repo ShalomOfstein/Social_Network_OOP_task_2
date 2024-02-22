@@ -49,14 +49,10 @@ class TextPost(Post):
     def __init__(self, owner, content):
         super().__init__(owner, "Text")
         self._content = content
-        self.display()
+        print(self)
 
     def __str__(self):
         return f"{self._owner.get_username()} published a post:\n\"{self._content}\"\n"
-
-    def display(self):
-        print(self._owner.get_username() + " published a post:\n\"" + self._content + "\"")
-        print()
 
 
 ########################################################################################
@@ -73,7 +69,11 @@ class ImagePost(Post):
 
     def display(self):
         print("Shows picture")
-        # plt.imshow(self._content)
+        img = plt.imread(self._content)
+        plt.imshow(img)
+        plt.axis('off')
+        plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
+        plt.show()
 
 
 ########################################################################################
@@ -96,14 +96,6 @@ class SalePost(Post):
             return string + ("For sale! " +
                              self._title + ", price: " + str(self._price) + ", pickup from: " + self._location)+"\n"
 
-    def display(self):
-        if not self._sold:
-            print(self._owner.get_username() + " posted a product for sale:\nFor sale! " +
-                  self._title + ", price: " + str(self._price) + ", pickup from: " + self._location)
-        else:
-            print(f"Sold! {self._title}, price: {str(self._price)}, pickup from: {self._location}")
-        print()
-
     def sold(self, password):
         if not self._sold:
             if self._owner.get_password() == password:
@@ -122,12 +114,12 @@ class SalePost(Post):
 # it has a static method to create the posts by the type and the content
 class PostFactory:
     @staticmethod
-    def create_post(owner, type, *args):
-        if type == "Text":
+    def create_post(owner, post_type, *args):
+        if post_type == "Text":
             return TextPost(owner, *args)
-        elif type == "Image":
+        elif post_type == "Image":
             return ImagePost(owner, *args)
-        elif type == "Sale":
+        elif post_type == "Sale":
             return SalePost(owner, *args)
         else:
             raise Exception("Invalid post type")

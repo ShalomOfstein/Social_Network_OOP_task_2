@@ -32,7 +32,7 @@ def main():
                                  "he discovered the Americas, changing the course of history forever.")
 
     # Creating image post
-    p2 = u4.publish_post("Image", 'image')
+    p2 = u4.publish_post("Image", 'image1.jpg')
 
     # Creating sale post
     p3 = u3.publish_post("Sale", "Toyota prius 2012", 42000, "Haifa")

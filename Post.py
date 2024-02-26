@@ -87,11 +87,14 @@ class ImagePost(Post):
 
     def display(self):
         print("Shows picture")
-        img = plt.imread(self._content)
-        plt.imshow(img)
-        plt.axis('off')
-        plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
-        plt.show()
+        try:
+            img = plt.imread(self._content)
+            plt.imshow(img)
+            plt.axis('off')
+            plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
+            plt.show()
+        except Exception as e:
+            print(f"Error displaying the image: {e}")
 
 
 ########################################################################################

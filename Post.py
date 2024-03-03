@@ -29,13 +29,10 @@ class Post:
 
     def like(self, user):
         if user.get_is_online():
-            # if the user is the owner of the post, it does nothing
-            if user == self._owner:
-                return
-            else:
-                # if the user is not in the likes list, it adds it and sends a notification to the owner
-                if user not in self._likes:
-                    self._likes.append(user)
+            # if the user is not in the likes list, it adds it and sends a notification to the owner
+            if user not in self._likes:
+                self._likes.append(user)
+                if user != self._owner: # if the user is the owner, it does not send a notification
                     notification = LikeNotification(self._owner.get_username(), user)
                     self._owner.notify(notification)
                     # logs the action of the notification being sent
@@ -49,10 +46,11 @@ class Post:
     def comment(self, user, text):
         if user.get_is_online():
             self._comments.append((user, text))
-            notification = CommentNotification(self._owner.get_username(), user)
-            self._owner.notify(notification)
-            # logs the action of the notification being sent
-            print(f"notification to {self._owner.get_username()}: {user.get_username()} commented on your post: {text}")
+            if user != self._owner:
+                notification = CommentNotification(self._owner.get_username(), user)
+                self._owner.notify(notification)
+                # logs the action of the notification being sent
+                print(f"notification to {self._owner.get_username()}: {user.get_username()} commented on your post: {text}")
 
 
 #######################################################################################
